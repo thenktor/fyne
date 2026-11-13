@@ -556,6 +556,18 @@ func (w *window) processMouseClicked(button desktop.MouseButton, action action, 
 		w.mouseButton &= ^button
 	}
 
+	if button == desktop.MouseButtonBack || button == desktop.MouseButtonForward {
+		if action == press {
+			return
+		}
+		if w.canvas.onMouseBack != nil && button == desktop.MouseButtonBack {
+			w.canvas.onMouseBack()
+		} else if w.canvas.onMouseForward != nil && button == desktop.MouseButtonForward {
+			w.canvas.onMouseForward()
+		}
+		return
+	}
+
 	mouseDragged := w.mouseDragged
 	mouseDragStarted = w.mouseDragStarted
 	mouseOver := w.mouseOver
